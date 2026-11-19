@@ -1,0 +1,8 @@
+- title: 보안 프로젝트
+  collection: projects
+  url: /projects/
+  unit: 건
+- title: CTF·워게임
+  collection: writeups
+  url: /writeups/
+  unit: 편

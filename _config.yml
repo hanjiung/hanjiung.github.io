@@ -1,0 +1,38 @@
+title: hanjiung
+locale: ko-KR
+url: "https://hanjiung.github.io"
+baseurl: ""
+repository: hanjiung/hanjiung.github.io
+remote_theme: mmistakes/minimal-mistakes@4.28.1
+plugins:
+  - jekyll-remote-theme
+  - jekyll-include-cache
+
+collections:
+  projects:
+    output: true
+    permalink: /projects/:name/
+  writeups:
+    output: true
+    permalink: /writeups/:name/
+defaults:
+  - scope:
+      path: ""
+      type: projects
+    values:
+      layout: single
+      classes: wide
+  - scope:
+      path: ""
+      type: writeups
+    values:
+      layout: single
+      classes: wide
+
+atom_feed:
+  hide: true
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor

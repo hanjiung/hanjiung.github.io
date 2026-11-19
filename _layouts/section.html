@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<main id="main" class="frame portfolio" tabindex="-1">
+  <header class="portfolio-cover section-cover"><h1>{{ page.title }}</h1></header>
+  {% assign entries = site[page.section] | sort: "title" %}
+  {% if entries.size == 0 %}
+    <p class="empty-state">{{ page.empty_state }}</p>
+  {% elsif page.section == "writeups" %}
+    {% assign topics = entries | group_by_exp: "entry", "entry.topic | default: '기타'" | sort: "name" %}
+    {% for topic in topics %}
+      <section class="entry-group">
+        <h2>{{ topic.name | escape }}</h2>
+        {% include entry-list.html entries=topic.items %}
+      </section>
+    {% endfor %}
+  {% else %}
+    {% include entry-list.html entries=entries %}
+  {% endif %}
+</main>

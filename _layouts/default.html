@@ -1,0 +1,29 @@
+---
+---
+<!doctype html>
+<html lang="{{ site.locale }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include seo.html locale=site.locale %}
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+  </head>
+  <body class="{{ page.classes | join: ' ' }}">
+    <a class="skip-link" href="#main">본문으로 이동</a>
+    <header class="site-bar">
+      <div class="frame site-bar-inner">
+        <a class="wordmark" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} 홈">{{ site.title }}</a>
+        <nav class="main-nav" aria-label="주 메뉴">
+          <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>홈</a>
+          {% for section in site.data.sections %}
+            <a href="{{ section.url | relative_url }}"{% if page.url == section.url %} aria-current="page"{% elsif page.collection == section.collection %} aria-current="location"{% endif %}>{{ section.title }}</a>
+          {% endfor %}
+        </nav>
+      </div>
+    </header>
+    {{ content }}
+    <footer class="site-foot">
+      <div class="frame"><a href="https://github.com/{{ site.repository | split: '/' | first }}">GitHub<span class="external-arrow" aria-hidden="true">↗</span></a></div>
+    </footer>
+  </body>
+</html>
