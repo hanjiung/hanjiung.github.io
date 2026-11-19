@@ -1,6 +1,14 @@
 <ul class="entry-list">
   {% assign max_entries = include.limit | default: include.entries.size %}
   {% for entry in include.entries limit: max_entries %}
-    <li><a href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a></li>
+    <li>
+      <a href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a>
+      {% if include.show_details and entry.description %}
+        <p class="entry-description">{{ entry.description | escape }}</p>
+      {% endif %}
+      {% if include.show_details and entry.repository_url %}
+        <a class="entry-source" href="{{ entry.repository_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ entry.title | escape }} GitHub 저장소 (새 탭)">GitHub 저장소 <span aria-hidden="true">↗</span></a>
+      {% endif %}
+    </li>
   {% endfor %}
 </ul>

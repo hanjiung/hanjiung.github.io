@@ -42,7 +42,7 @@ layout: default
         {% endfor %}
       </div>
     {% else %}
-      <div class="entries">{% include entry-list.html entries=entries %}</div>
+      <div class="entries">{% include entry-list.html entries=entries show_details=true %}</div>
     {% endif %}
   </section>
 {% endfor %}
