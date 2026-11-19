@@ -1,12 +1,55 @@
 - field: 프로그래밍 언어
-  tools: [C, Java, Assembly (어셈블리어), Python]
+  icon: code
+  tools:
+    - name: C
+      icon: c
+      resource: GNU C 매뉴얼
+      url: https://www.gnu.org/software/c-intro-and-ref/manual/html_node/index.html
+    - name: Java
+      icon: java
+      resource: Dev.java 학습 가이드
+      url: https://dev.java/learn/
+    - name: Assembly
+      icon: assembly
+      resource: 어셈블리어 · GNU as
+      url: https://sourceware.org/binutils/docs/as/
+    - name: Python
+      icon: python
+      resource: Python 3 한국어 문서
+      url: https://docs.python.org/ko/3/
 - field: 보안 도구
-  tools: [Burp Suite, Wireshark]
+  icon: shield
+  tools:
+    - name: Burp Suite
+      icon: burpsuite
+      resource: PortSwigger 문서
+      url: https://portswigger.net/burp/documentation/desktop
+    - name: Wireshark
+      icon: wireshark
+      resource: 공식 가이드
+      url: https://www.wireshark.org/docs/
 - field: 런타임
-  tools: [Node.js]
+  icon: play
+  tools:
+    - name: Node.js
+      icon: nodejs
+      resource: API 레퍼런스
+      url: https://nodejs.org/api/
 - field: 운영체제
-  tools: [Linux]
+  icon: desktop
+  tools:
+    - name: Linux
+      icon: linux
+      resource: Linux 커널 문서
+      url: https://docs.kernel.org/
 - field: 버전 관리·협업
-  tools: [Git, GitHub]
-- field: Python 라이브러리
-  tools: [pypdf, python-docx, Hugging Face Transformers]
+  icon: branch
+  tools:
+    - name: Git
+      icon: git-scm
+      resource: Git 명령어 레퍼런스
+      url: https://git-scm.com/docs
+    - name: GitHub
+      icon: github
+      resource: GitHub Docs 한국어판
+      url: https://docs.github.com/ko

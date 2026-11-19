@@ -95,7 +95,7 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
 .brand, .dock-item { text-decoration: none; }
 .brand { min-height: calc(var(--bar-height) - 1px); }
 .brand strong { font-size: 13px; font-weight: 680; letter-spacing: -.025em; }
-.brand svg, .app-tile svg, .window-title svg {
+.brand svg, .app-tile svg, .window-title svg, .skill-category-icon svg, .about-links svg {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.8;
@@ -199,6 +199,8 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
 .profile h2 { display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 10px; font-size: 28px; line-height: 1.25; letter-spacing: -.045em; }
 .profile h2 a { color: var(--muted); font: 500 14px/1.4 var(--mono); letter-spacing: -.02em; text-decoration: none; }
 .profile h2 a:hover { color: var(--accent); text-decoration: underline; }
+.profile-github { display: inline-flex; align-items: center; gap: 5px; }
+.profile-github svg, .entry-source svg, .section-link svg, .about-links svg { flex: none; width: 15px; height: 15px; }
 .role { margin-top: 6px; color: var(--accent); font-size: 13px; font-weight: 600; }
 .role span { font-family: var(--mono); }
 .avatar {
@@ -224,13 +226,77 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
 .about-links a:hover { background: var(--highlight); }
 .about-links .about-primary { border-color: transparent; background: var(--action); color: white; font-weight: 600; }
 .about-links .about-primary:hover { background: #115da9; }
-.terminal-line { padding: 13px 16px; border: 1px solid var(--edge); border-radius: 10px; background: #121218; color: #f3f1fa; font: 13px/1.5 var(--mono); }
-.terminal-line span { margin-right: 5px; color: #68e4a0; }
-.skill-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
-.skill-group { padding: 16px; }
-.skill-group h2, .activity-list h2 { font-size: 16px; }
-.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
-.skill-tags li { padding: 3px 8px; background: var(--highlight); border-radius: 5px; font-size: 13px; }
+.skills-heading { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; }
+.skills-heading .panel-path { grid-column: 1 / -1; }
+.skills-heading .section-link { text-decoration: none; }
+.skills-heading .section-link:is(:hover, :focus-visible) { text-decoration: underline; }
+.skills-source {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  padding: 9px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 10px;
+  background: #14141b;
+  color: #d1d0dc;
+  text-decoration: none;
+}
+.skills-source code { font: 13px/1.5 var(--mono); }
+.skills-source code span { margin-right: 4px; color: #8ce5b0; }
+.skills-source code b { color: #e5dcff; font-weight: 500; }
+.skills-source:is(:hover, :focus-visible) b { text-decoration: underline; text-underline-offset: .2em; }
+.source-host { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; font-size: 12px; }
+.source-host svg { width: 14px; height: 14px; }
+.skill-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.skill-group { min-width: 0; padding: 14px 16px 10px; }
+.skill-wide { grid-column: 1 / -1; }
+.skill-group h2 { display: flex; align-items: center; gap: 9px; font-size: 15px; line-height: 1.35; }
+.skill-category-icon {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(140deg, #3776d4, #8156c9);
+  color: white;
+  box-shadow: inset 0 1px 0 #ffffff39;
+}
+.skill-category-icon svg { width: 17px; height: 17px; }
+.skill-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 126px), 1fr));
+  gap: 3px 8px;
+  margin: 11px 0 0;
+  padding: 6px 0 0;
+  border-top: 1px solid var(--rule);
+  list-style: none;
+}
+.skill-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  height: 100%;
+  padding: 4px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+.skill-link:is(:hover, :focus-visible) { background: var(--highlight); }
+.skill-link:is(:hover, :focus-visible) .skill-name { color: var(--accent); text-decoration: underline; text-underline-offset: .2em; }
+.skill-logo { display: grid; place-items: center; flex: none; width: 22px; color: var(--logo-dark, var(--accent)); }
+.skill-logo svg { width: 20px; height: 20px; }
+.skill-logo[data-icon="assembly"] { --logo-dark: #c3a9ff; --logo-light: #7854ab; }
+.skill-logo:is([data-icon="java"], [data-icon="burpsuite"], [data-icon="git-scm"]) { --logo-dark: #ff9c78; --logo-light: #ad502d; }
+.skill-logo[data-icon="nodejs"] { --logo-dark: #91d385; --logo-light: #38753e; }
+.skill-logo:is([data-icon="linux"], [data-icon="github"]) { --logo-dark: var(--ink); --logo-light: var(--ink); }
+[data-look="light"] .skill-logo { color: var(--logo-light, var(--accent)); }
+.skill-text { display: grid; flex: 1; min-width: 0; gap: 2px; }
+.skill-name { font-size: 14px; font-weight: 650; line-height: 1.3; }
+.skill-resource { color: var(--muted); font-size: 11px; line-height: 1.4; }
+.skill-out { flex: none; color: var(--muted); font-size: 12px; }
+.activity-list h2 { font-size: 16px; }
 .activity-list p { color: var(--muted); font-size: 13px; line-height: 1.6; }
 .section-link { display: inline-flex; align-items: center; gap: 5px; min-height: 32px; color: var(--accent); font-size: 13px; text-underline-offset: .2em; }
 .app-body > .section-link { margin-top: 14px; }
@@ -391,6 +457,7 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
   .profile .about-copy { margin-block: 12px 14px; line-height: 1.7; }
   .profile .about-links { gap: 5px; }
   .profile .about-links a { padding-inline: 7px; gap: 4px; font-size: 12px; }
+  .profile .about-links svg { width: 12px; height: 12px; }
 }
 @media (max-width: 440px) {
   .menu-date { display: none; }

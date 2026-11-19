@@ -6,38 +6,61 @@ layout: default
   <section class="window app-window" data-window="{{ app.id }}" aria-labelledby="title-{{ app.id }}"{% if initial == app.id %} data-front="true"{% else %} hidden{% endif %}>
     {% include window-bar.html icon=app.icon name=app.name title=app.title %}
     <div class="app-body{% if app.id == 'home' %} home-body{% endif %}">
-      <header class="panel-heading">
+      <header class="panel-heading{% if app.id == 'skills' %} skills-heading{% endif %}">
         <p class="panel-path" lang="en">~/{{ site.title | escape }}{{ app.url | escape }}</p>
         <h1 id="title-{{ app.id }}" lang="en">{{ app.name | remove: '.app' | escape }}</h1>
+        {% if app.id == 'skills' %}
+          <a class="section-link" href="{{ '/projects/' | relative_url }}" data-open="projects">{% include app-icon.html icon="folder-link" %}프로젝트 보기 <span aria-hidden="true">→</span></a>
+        {% endif %}
       </header>
       {% case app.id %}
         {% when 'home' %}
           <div class="profile">
             <span class="avatar" aria-hidden="true">한</span>
             <div class="profile-info">
-              <h2>한지웅 <a href="https://github.com/{{ site.repository | split: '/' | first }}" lang="en">@{{ site.repository | split: '/' | first }}</a></h2>
+              <h2>한지웅 <a class="profile-github" href="https://github.com/{{ site.repository | split: '/' | first }}" lang="en" aria-label="@{{ site.repository | split: '/' | first }} on GitHub">{% include app-icon.html icon="github" %}@{{ site.repository | split: '/' | first }}</a></h2>
               <p class="role"><span lang="en">$ whoami →</span> 모의해킹 직무 준비 중</p>
               <p class="about-copy">보안 프로젝트에서 맡은 일과 기술적인 선택의 이유를 기록합니다. CTF와 드림핵 워게임을 풀며 세운 가설, 풀이의 실마리, 새롭게 배운 점도 모읍니다.</p>
               <nav class="about-links" aria-label="포트폴리오 둘러보기">
-                <a class="about-primary" href="{{ '/projects/' | relative_url }}" data-open="projects">프로젝트 보기 <span aria-hidden="true">→</span></a>
-                <a href="{{ '/skills/' | relative_url }}" data-open="skills">기술 스택</a>
-                <a href="{{ '/writeups/' | relative_url }}">전체 풀이</a>
+                <a class="about-primary" href="{{ '/projects/' | relative_url }}" data-open="projects">{% include app-icon.html icon="folder-link" %}프로젝트 보기</a>
+                <a href="{{ '/skills/' | relative_url }}" data-open="skills">{% include app-icon.html icon="terminal" %}기술 스택</a>
+                <a href="{{ '/writeups/' | relative_url }}">{% include app-icon.html icon="book" %}전체 풀이</a>
               </nav>
             </div>
           </div>
         {% when 'skills' %}
-          <p class="terminal-line"><span aria-hidden="true">❯</span> <code>cat _data/skills.yml</code></p>
+          <a class="skills-source" href="https://github.com/{{ site.repository }}/blob/main/_data/skills.yml" target="_blank" rel="noopener noreferrer" aria-label="GitHub에서 기술 목록 파일 보기 (새 탭)">
+            <code><span aria-hidden="true">❯</span> cat <b>_data/skills.yml</b></code>
+            <span class="source-host" aria-hidden="true">{% include app-icon.html icon="github" %} GitHub ↗</span>
+          </a>
           <div class="skill-groups">
             {% for skill in site.data.skills %}
-              <section class="skill-group">
-                <h2>{{ skill.field | escape }}</h2>
-                <ul class="skill-tags" aria-label="{{ skill.field | escape }}">
-                  {% for technology in skill.tools %}<li>{{ technology | escape }}</li>{% endfor %}
+              <section class="skill-group{% if skill.tools.size > 2 %} skill-wide{% endif %}">
+                <h2>
+                  {% if skill.icon %}<span class="skill-category-icon" aria-hidden="true">{% include app-icon.html icon=skill.icon %}</span>{% endif %}
+                  {{ skill.field | escape }}
+                </h2>
+                <ul class="skill-links" aria-label="{{ skill.field | escape }}">
+                  {% for technology in skill.tools %}
+                    <li>
+                      {% if technology.url %}
+                        <a class="skill-link" href="{{ technology.url | escape }}" target="_blank" rel="noopener noreferrer">
+                          {% if technology.icon %}<span class="skill-logo" data-icon="{{ technology.icon | escape }}" aria-hidden="true">{% include app-icon.html icon=technology.icon %}</span>{% endif %}
+                          <span class="skill-text">
+                            <span class="skill-name">{{ technology.name | escape }}</span>
+                            {% if technology.resource %}<span class="skill-resource">{{ technology.resource | escape }}</span>{% endif %}
+                          </span>
+                          <span class="skill-out" aria-hidden="true">↗</span><span class="sr-only"> (새 탭)</span>
+                        </a>
+                      {% else %}
+                        <span class="skill-name">{{ technology.name | default: technology | escape }}</span>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
                 </ul>
               </section>
             {% endfor %}
           </div>
-          <a class="section-link" href="{{ '/projects/' | relative_url }}" data-open="projects">프로젝트에서 활용 사례 보기 <span aria-hidden="true">→</span></a>
         {% when 'projects' %}
           {% assign projects = site.projects | sort: 'title' %}
           {% if projects.size == 0 %}
