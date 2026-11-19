@@ -15,7 +15,7 @@ GitHub Pages와 Jekyll로 운영하는 한지웅의 모의해킹 포트폴리오
 | `_data/activities.yml` | 날짜순 활동·교육 기록 |
 | `assets/css/main.css` | 사이트 스타일 |
 
-프로젝트를 추가할 때 `_templates/project.md`를 `_projects/`에 복사하고 파일명과 제목을 정합니다. `featured: true`인 글은 Projects.app의 ‘대표 프로젝트’에 표시됩니다.
+프로젝트를 추가할 때 `_templates/project.md`를 `_projects/`에 복사하고 파일명과 제목을 정합니다. 모든 프로젝트 글에는 **내가 한 것**, **느낀 점**, **개선할 점**을 작성합니다. `featured: true`인 글은 Projects.app의 ‘대표 프로젝트’에 표시됩니다.
 
 CTF와 워게임 양식에는 각각 `section: ctf`와 `section: wargames`가 지정되어 있습니다. `_writeups/`에 저장한 글은 해당 창에서 `topic`별로 묶입니다. `/writeups/`에서는 분류가 없는 기존 글까지 모두 볼 수 있습니다.
 
