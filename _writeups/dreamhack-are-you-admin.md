@@ -1,19 +1,11 @@
 ---
 title: "Are you admin?"
-description: "Flask의 요청 처리부터 Jinja 템플릿까지 입력을 따라가며, 소개 문구의 출력 방식이 관리자 화면에 미치는 영향을 분석한 드림핵 풀이입니다."
+description: "코드를 읽으며 찾은 취약점과 가설을 정리해 보도록 하겠다."
 section: wargames
 topic: "Dreamhack · Bronze"
 ---
 
-**Dreamhack · 웹 보안 · Bronze** · [드림핵에서 문제 보기](https://dreamhack.io/wargame/challenges/1922)
-
-소개 페이지는 이름과 소개 문구를 나란히 보여줍니다. 두 값이 같은 템플릿을 거치는데도 화면에서 다르게 해석된다는 점이 풀이의 출발점이었습니다.
-
-## 풀이 과정
-
-### 입력이 템플릿에 도착하기까지
-
-먼저 `app.py`를 열었습니다. 첫 요청은 `/intro`로 이동하고, `intro()`는 쿼리에서 `name`과 `detail`을 꺼냅니다. 두 값이 화면에 어떻게 표시되는지 확인하려고 마지막 줄에 나온 `intro.html`을 열었습니다.
+## 코드 분석
 
 ```python
 # app.py
@@ -28,63 +20,145 @@ def intro():
     return render_template("intro.html", name=name, detail=detail)
 ```
 
-### 소개 문구의 두 출력 줄 비교하기
-
-`intro.html`에서 먼저 눈에 띈 건 아래 조건입니다. 둘 중 하나라도 비어 있으면 `Introduce yourself!`가 나옵니다. 두 값을 채우면 소개 문구를 출력하는 쪽으로 들어갑니다. 아래는 원문의 템플릿 구조입니다. `…`는 사용자 값을 출력하는 식이 있는 자리입니다.
+- `/` 엔드포인트
+  - `/intro` 엔드포인트로 리다이렉트함.
+- `/intro` 엔드포인트
+  - get 방식으로 name과 detail 파라미터를 받고 `intro.html`을 랜더링
 
 {% raw %}
 
 ```jinja
-<h1>Introduction</h1>
-{% if name and detail %}
-    <p>Hello, my name is <strong>…</strong>.</p>
-    <p>…</p>
-{% else %}
-    <p>Introduce yourself!</p>
-{% endif %}
+<!-- intro.html body 부분 -->
+<body>
+    <div class="container">
+        <h1>Introduction</h1>
+        {% if name and detail %}
+            <p>Hello, my name is <strong>[가림]</strong>.</p>
+            <p>{{ detail }}</p>
+        {% else %}
+            <p>Introduce yourself!</p>
+        {% endif %}
+    </div>
+</body>
 ```
 
+- [가림]
+  - [가림] 옵션은 html 특수문자를 이스케이프 하지 않고 출력함, 즉 html을 해석함
+- `{{ detail }}`
+  - html 특수문자를 이스케이프함, 즉 단순 문자열로 출력함
+
 {% endraw %}
-
-그 두 줄은 사용자 입력을 서로 다르게 다뤘습니다. 한쪽은 HTML 특수문자를 이스케이프했고, 다른 쪽은 입력에 포함된 마크업을 브라우저가 해석할 수 있었습니다. `<em>memo</em>`라는 짧은 문구로 두 경우를 비교하면 차이가 보입니다.
-
-| 브라우저가 받은 HTML 조각 | 화면에 보이는 내용 |
-| --- | --- |
-| `<p>&lt;em&gt;memo&lt;/em&gt;</p>` | `<em>memo</em>` |
-| `<p><em>memo</em></p>` | *memo* (기울임꼴) |
-
-### 소개 페이지를 여는 사람의 권한
-
-문제 코드에는 관리자가 사용자 소개 페이지를 열어 보는 흐름이 있었습니다. 이 코드를 보고 앞서 발견한 출력 차이와 연결했습니다. 사용자가 쓴 내용이 코드로 실행되면, 그 코드는 페이지를 연 사람의 권한으로 동작합니다. 관리자만 볼 수 있는 정보도 이 XSS의 영향을 받겠다는 가설을 세웠고, 문제 환경에서 플래그를 확인했습니다.
-
-**플래그**　`[가림]`
-
-## 로컬 검증
-
-풀이 중 따로 메모했던 점은 URL 인코딩과 HTML 이스케이프의 차이였습니다. 아래는 그 차이를 직접 볼 수 있게 공개본에 덧붙인 예제입니다. 같은 문구를 쿼리에 넣을 때, 쿼리에서 다시 꺼낼 때, 템플릿으로 출력할 때의 값을 차례로 찍었습니다.
-
-{% raw %}
 
 ```python
-from urllib.parse import parse_qs, urlencode
+# app.py
+# [가림]
+    if request.method == "POST":
+        path = request.form.get("path")
+        if not path:
+            return render_template("[가림]", msg="fail")
 
-from jinja2 import Environment
+        else:
+            parsed_path = urlparse(path)
+            params = parse_qs(parsed_path.query)
+            name = params.get("name", [None])[0]
+            detail = params.get("detail", [None])[0]
 
-query = urlencode({"text": "R&D <em>memo</em>"})
-text = parse_qs(query)["text"][0]
-view = Environment(autoescape=True).from_string("<p>{{ text }}</p>")
+            # [가림]
+    else:
+        return render_template("[가림]")
 
-print(query)
-print(text)
-print(view.render(text=text))
+# [가림]
+    try:
+        # [가림]
+        service = Service(executable_path="/chromedriver-linux64/chromedriver")
+        options = webdriver.ChromeOptions()
+        for _ in [
+            "headless",
+            "window-size=1920x1080",
+            "disable-gpu",
+            # [가림]
+            "disable-dev-shm-usage",
+        ]:
+            options.add_argument(_)
+        driver = webdriver.Chrome(service=service, options=options)
+        driver.implicitly_wait(3)
+        driver.set_page_load_timeout(3)
+        # [가림]
+    except Exception as e:
+        print(e, flush=True)
+        driver.quit()
+        return False
+    driver.quit()
+    return True
 ```
 
-{% endraw %}
+- [가림] 엔드포인트
+  - POST 방식으로 path를 받고 path에서 name과 detail 변수를 추출
+  - [가림]
 
-```text
-text=R%26D+%3Cem%3Ememo%3C%2Fem%3E
-R&D <em>memo</em>
-<p>R&amp;D &lt;em&gt;memo&lt;/em&gt;</p>
+```python
+# app.py
+# [가림]
+    else:
+        message = "You are guest"
+        return render_template('[가림]',id=id, message=message)
 ```
 
-첫 줄의 `%26`은 쿼리를 읽고 나면 둘째 줄에서 다시 `&`가 됩니다. 셋째 줄의 `&lt;`와 `&gt;`는 브라우저가 꺾쇠를 글자로 표시하게 합니다. 소개 페이지의 문제를 판단할 때 끝까지 따라가야 했던 부분이 바로 이 마지막 출력 단계였습니다.
+- [가림]엔드포인트
+  - [가림] admin계정과 일치하다면 FLAG를 포함한 HTML을 반환, 아니라면 guest 반환
+
+---
+
+## 공격 벡터 분석
+
+코드를 읽으며 찾은 취약점과 가설을 정리해 보도록 하겠다.
+
+1. [가림] 헤더를 가진 사용자에게만 FLAG를 반환해 출력해줌
+2. [가림] →<mark> XSS를 유도하는 거 같음</mark>
+3. `intro.html`을 보면 [가림] 해당 옵션은 html을 그대로 실행해줌 → [가림]
+4. [가림]
+
+---
+
+## 익스플로잇
+
+### &lt;script&gt; 작성
+
+1. [가림]
+2. fetch()는 비동기 작업이기에 promise 반환→ .then() 을 사용해 response를 가져옴
+3. 위에서 사용할 response.text() 또한 비동기 작업이기에 .then()을 사용해 response.text()의 값을 html에 저장
+4. [가림]
+5. 여기서 html을 그대로 url에 포함시킬 시 특수문자로 인해 제대로 전달이 되지 않기에 [가림]
+
+아래는 위의 단계를 정리한 코드이다.
+
+> [공격 코드 가림]
+
+### payload 작성
+
+[가림] 특수문자들로 인해 제대로 전달이 되지 않음
+
+→ 문제에서 사용한 `quote` 사용
+
+→ `quote`함수에서 safe 옵션이 존재하는데 기본값이 `safe=’/’` 라서 ‘/’를 인코딩하지 않음
+
+→ [가림]
+
+```python
+from urllib.parse import quote
+import requests
+
+# [가림]
+
+try:
+    ...  # [가림]
+except Exception as e:
+    print('요청 실패')
+```
+
+<figure>
+  <img src="{{ '/assets/writeups/are-you-admin/webhook-result.png' | relative_url }}" width="1134" height="730" alt="웹훅에 기록된 HTML 응답. 식별 정보와 플래그는 가림." loading="lazy">
+  <figcaption>웹훅 결과</figcaption>
+</figure>
+
+문제를 풀고 나서 알게된 사실은 [가림] 바로 플래그를 확인할 수 있었다..
