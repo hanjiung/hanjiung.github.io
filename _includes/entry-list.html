@@ -3,15 +3,6 @@
   {% for entry in include.entries limit: max_entries %}
     <li>
       <a href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a>
-      {% if include.show_details and entry.description %}
-        <p class="entry-description">{{ entry.description | escape }}</p>
-      {% endif %}
-      {% if include.show_details and entry.repository_url %}
-        <a class="entry-source" href="{{ entry.repository_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ entry.title | escape }} GitHub 저장소 (새 탭)">{% include app-icon.html icon="github" %}GitHub 저장소 <span aria-hidden="true">↗</span></a>
-      {% endif %}
-      {% if include.show_details and entry.example_anchor %}
-        <a class="entry-source" href="{{ entry.url | relative_url }}#{{ entry.example_anchor | escape }}" aria-label="{{ entry.title | escape }} 동작 예시 보기">{% include app-icon.html icon="book" %}동작 예시 보기 <span aria-hidden="true">→</span></a>
-      {% endif %}
     </li>
   {% endfor %}
 </ul>

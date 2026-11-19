@@ -72,13 +72,13 @@ layout: default
               {% if featured.size > 0 %}
                 <section class="entry-group">
                   <h2>대표 프로젝트</h2>
-                  {% include entry-list.html entries=featured show_details=true %}
+                  {% include project-cards.html entries=featured %}
                 </section>
               {% endif %}
               {% if other.size > 0 %}
                 <section class="entry-group">
-                  {% if featured.size > 0 %}<h2>다른 프로젝트</h2>{% endif %}
-                  {% include entry-list.html entries=other show_details=true %}
+                  <h2>{% if featured.size > 0 %}다른 프로젝트{% else %}프로젝트 목록{% endif %}</h2>
+                  {% include project-cards.html entries=other %}
                 </section>
               {% endif %}
             </div>

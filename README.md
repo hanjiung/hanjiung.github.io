@@ -17,6 +17,8 @@ GitHub Pages와 Jekyll로 운영하는 한지웅의 모의해킹 포트폴리오
 
 프로젝트를 추가할 때 `_templates/project.md`를 `_projects/`에 복사하고 파일명과 제목을 정합니다. 모든 프로젝트 글에는 **내가 한 것**, **느낀 점**, **개선할 점**을 작성합니다. `featured: true`인 글은 Projects.app의 ‘대표 프로젝트’에 표시됩니다.
 
+카드에는 `card_title`, 한 문장 설명(`description`), 역할(`role`)이 표시됩니다. 상세 글 첫 화면에는 팀과 기간(`context`), 사용 기술 목록(`technologies`), 대표 결과(`result`)를 담습니다. 카드에서 본문 사례로 바로 연결하려면 `example_anchor`에 해당 소제목의 ID를, `example_label`에 링크 이름을 적습니다.
+
 CTF와 워게임 양식에는 각각 `section: ctf`와 `section: wargames`가 지정되어 있습니다. `_writeups/`에 저장한 글은 해당 창에서 `topic`별로 묶입니다. `/writeups/`에서는 분류가 없는 기존 글까지 모두 볼 수 있습니다.
 
 ## 로컬에서 보기

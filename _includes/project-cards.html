@@ -1,0 +1,25 @@
+<ul class="project-grid">
+  {% for project in include.entries %}
+    <li class="project-card">
+      <h3 class="project-title">
+        <a href="{{ project.url | relative_url }}">
+          {% if project.icon %}<span class="skill-logo project-icon" data-icon="{{ project.icon | escape }}" aria-hidden="true">{% include app-icon.html icon=project.icon %}</span>{% endif %}
+          <span>{{ project.card_title | default: project.title | escape }}</span>
+          <span class="project-open" aria-hidden="true">›</span>
+        </a>
+      </h3>
+      {% if project.role %}<p class="project-role">{{ project.role | escape }}</p>{% endif %}
+      {% if project.description %}<p class="project-description">{{ project.description | escape }}</p>{% endif %}
+      {% if project.example_anchor or project.repository_url %}
+        <div class="project-actions">
+          {% if project.example_anchor %}
+            <a href="{{ project.url | relative_url }}#{{ project.example_anchor | escape }}">{% include app-icon.html icon="book" %}{{ project.example_label | default: '동작 예시' | escape }}</a>
+          {% endif %}
+          {% if project.repository_url %}
+            <a href="{{ project.repository_url | escape }}" target="_blank" rel="noopener noreferrer">{% include app-icon.html icon="github" %}팀 저장소 <span aria-hidden="true">↗</span><span class="sr-only"> (새 탭)</span></a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

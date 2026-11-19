@@ -3,12 +3,28 @@ layout: default
 ---
 {% assign current_app = page.section | default: page.collection %}
 {% assign section = site.data.sections | where: 'id', current_app | first %}
-<article class="window reader" aria-labelledby="article-title">
+<article class="window reader{% if page.collection == 'projects' %} project-reader{% endif %}" aria-labelledby="article-title">
   <header class="titlebar reader-bar">
     <a href="{{ section.url | default: '/writeups/' | relative_url }}"><span aria-hidden="true">←</span> {{ section.title | default: '전체 풀이' | escape }}</a>
   </header>
   <div class="reader-body">
-    <h1 id="article-title">{{ page.title | escape }}</h1>
-    {{ content }}
+    {% if page.collection == 'projects' %}
+      <header class="project-head">
+        {% if page.context %}<p class="project-context">{{ page.context | escape }}</p>{% endif %}
+        <h1 id="article-title">{{ page.title | escape }}</h1>
+        {% if page.description %}<p class="project-lede">{{ page.description | escape }}</p>{% endif %}
+        {% if page.role or page.technologies or page.result %}
+          <dl class="project-facts">
+            {% if page.role %}<div><dt>내 역할</dt><dd>{{ page.role | escape }}</dd></div>{% endif %}
+            {% if page.technologies %}<div><dt>주요 기술</dt><dd>{{ page.technologies | join: ' · ' | escape }}</dd></div>{% endif %}
+            {% if page.result %}<div class="project-result"><dt>대표 결과</dt><dd>{{ page.result | escape }}</dd></div>{% endif %}
+          </dl>
+        {% endif %}
+      </header>
+      <div class="project-story">{{ content }}</div>
+    {% else %}
+      <h1 id="article-title">{{ page.title | escape }}</h1>
+      {{ content }}
+    {% endif %}
   </div>
 </article>
