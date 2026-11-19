@@ -11,7 +11,7 @@ GitHub Pages와 Jekyll로 운영하는 한지웅의 모의해킹 포트폴리오
 | `_writeups/` | CTF·워게임 글 |
 | `_templates/` | 프로젝트, CTF 라이트업, 워게임 학습 회고의 빈 양식 |
 | `_data/sections.yml` | 메뉴 이름과 경로 |
-| `_data/skills.yml` | 분야별 사용 기술과 활용 경험 |
+| `_data/skills.yml` | Skills 창에 표시할 분류별 기술 목록 |
 | `_data/activities.yml` | 날짜순 활동·교육 기록 |
 | `assets/css/main.css` | 사이트 스타일 |
 

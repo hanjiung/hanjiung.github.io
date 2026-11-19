@@ -31,10 +31,9 @@ layout: default
             {% for skill in site.data.skills %}
               <section class="skill-group">
                 <h2>{{ skill.field | escape }}</h2>
-                <ul class="skill-tags" aria-label="{{ skill.field | escape }} 기술">
-                  {% for tool in skill.tools %}<li>{{ tool | escape }}</li>{% endfor %}
+                <ul class="skill-tags" aria-label="{{ skill.field | escape }}">
+                  {% for technology in skill.tools %}<li>{{ technology | escape }}</li>{% endfor %}
                 </ul>
-                <p>{{ skill.use | escape }}</p>
               </section>
             {% endfor %}
           </div>

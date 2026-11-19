@@ -1,12 +1,12 @@
-- field: 프로그래밍
-  tools: [Python]
-  use: 텍스트와 구조화된 데이터를 다루고 반복되는 검사 과정을 함수와 모듈로 구성합니다.
-- field: 문서 처리
-  tools: [pypdf, python-docx]
-  use: PDF 본문과 DOCX 표에서 텍스트를 읽고 파일 형식별 차이를 보정합니다.
-- field: 민감정보 탐지
-  tools: [정규표현식, Hugging Face Transformers]
-  use: 패턴 매칭과 한국어 개체명 인식으로 민감한 표현을 찾고, 문맥에 따른 오탐을 살핍니다.
-- field: 협업
+- field: 프로그래밍 언어
+  tools: [C, Java, Assembly (어셈블리어), Python]
+- field: 보안 도구
+  tools: [Burp Suite, Wireshark]
+- field: 런타임
+  tools: [Node.js]
+- field: 운영체제
+  tools: [Linux]
+- field: 버전 관리·협업
   tools: [Git, GitHub]
-  use: 기능별로 변경 사항을 나누고 풀 리퀘스트에 구현과 수정 이력을 남깁니다.
+- field: Python 라이브러리
+  tools: [pypdf, python-docx, Hugging Face Transformers]
