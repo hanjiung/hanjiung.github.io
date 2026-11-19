@@ -1,12 +1,9 @@
 title: hanjiung
+description: hanjiung의 보안 프로젝트 및 CTF·워게임 기록
 locale: ko-KR
 url: "https://hanjiung.github.io"
 baseurl: ""
 repository: hanjiung/hanjiung.github.io
-remote_theme: mmistakes/minimal-mistakes@4.28.1
-plugins:
-  - jekyll-remote-theme
-  - jekyll-include-cache
 
 collections:
   projects:
@@ -21,16 +18,12 @@ defaults:
       type: projects
     values:
       layout: single
-      classes: wide
   - scope:
       path: ""
       type: writeups
     values:
       layout: single
-      classes: wide
 
-atom_feed:
-  hide: true
 exclude:
   - README.md
   - Gemfile

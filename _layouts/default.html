@@ -1,29 +1,59 @@
----
----
 <!doctype html>
-<html lang="{{ site.locale }}">
+<html lang="{{ site.locale | default: 'ko' }}" data-look="dark">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% include seo.html locale=site.locale %}
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>{{ page.title | escape }} · {{ site.title | escape }}</title>
+    <meta name="description" content="{{ page.description | default: site.description | escape }}">
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+    <meta property="og:title" content="{{ page.title | escape }} · {{ site.title | escape }}">
+    <meta property="og:description" content="{{ page.description | default: site.description | escape }}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:locale" content="ko_KR">
+    <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+    <script>
+      try {
+        if (localStorage.getItem("portfolio-appearance") === "light") {
+          document.documentElement.dataset.look = "light";
+        }
+      } catch {}
+    </script>
+    <script defer src="{{ '/assets/js/desktop.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
   </head>
-  <body class="{{ page.classes | join: ' ' }}">
+  {% assign current_app = page.section | default: page.collection | default: 'home' %}
+  {% assign current_section = site.data.sections | where: 'collection', current_app | first %}
+  <body class="desktop" data-initial="{{ current_app }}" data-site-title="{{ site.title | escape }}">
     <a class="skip-link" href="#main">본문으로 이동</a>
-    <header class="site-bar">
-      <div class="frame site-bar-inner">
-        <a class="wordmark" href="{{ '/' | relative_url }}" aria-label="{{ site.title }} 홈">{{ site.title }}</a>
-        <nav class="main-nav" aria-label="주 메뉴">
-          <a href="{{ '/' | relative_url }}"{% if page.url == '/' %} aria-current="page"{% endif %}>홈</a>
-          {% for section in site.data.sections %}
-            <a href="{{ section.url | relative_url }}"{% if page.url == section.url %} aria-current="page"{% elsif page.collection == section.collection %} aria-current="location"{% endif %}>{{ section.title }}</a>
-          {% endfor %}
-        </nav>
+    <header class="menu-bar">
+      <div class="menu-left">
+        <a class="brand" href="{{ '/' | relative_url }}" data-open="home" aria-label="{{ site.title | escape }} 홈">
+          {% include app-icon.html icon="desktop" %}<strong>{{ site.title | escape }}</strong>
+        </a>
+        <span class="current-app">{{ current_section.title | default: '포트폴리오' }}</span>
       </div>
+      <button class="appearance" type="button" aria-label="밝은 화면으로 전환" hidden>
+        <span class="appearance-icon" aria-hidden="true"></span><span class="appearance-label">밝게</span>
+      </button>
     </header>
-    {{ content }}
-    <footer class="site-foot">
-      <div class="frame"><a href="https://github.com/{{ site.repository | split: '/' | first }}">GitHub<span class="external-arrow" aria-hidden="true">↗</span></a></div>
+    <main id="main" class="workspace" tabindex="-1">
+      {{ content }}
+    </main>
+    <footer class="shelf">
+      <nav class="dock" aria-label="포트폴리오 메뉴">
+        <a class="dock-item" data-open="home" href="{{ '/' | relative_url }}" data-title="포트폴리오" data-page-title="모의해킹 포트폴리오"{% if current_app == 'home' %} aria-current="page" data-running="true"{% endif %}>
+          <span class="app-tile app-profile" aria-hidden="true">{% include app-icon.html icon="profile" %}</span><span>홈</span>
+        </a>
+        {% for section in site.data.sections %}
+          <a class="dock-item" data-open="{{ section.collection }}" href="{{ section.url | relative_url }}" data-title="{{ section.title | escape }}" data-page-title="{{ section.title | escape }}"{% if current_app == section.collection %} aria-current="{% if page.collection %}location{% else %}page{% endif %}" data-running="true"{% endif %}>
+            <span class="app-tile app-{{ section.icon }}" aria-hidden="true">{% include app-icon.html icon=section.icon %}</span><span>{{ section.short_title }}</span>
+          </a>
+        {% endfor %}
+        <a class="dock-item github" href="https://github.com/{{ site.repository | split: '/' | first }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub 프로필 열기">
+          <span class="app-tile app-git" aria-hidden="true">{% include app-icon.html icon="git" %}</span><span>GitHub</span>
+        </a>
+      </nav>
     </footer>
+    <span class="sr-only" role="status"></span>
   </body>
 </html>

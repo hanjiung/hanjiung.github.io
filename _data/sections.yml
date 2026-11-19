@@ -1,8 +1,12 @@
 - title: 보안 프로젝트
+  short_title: 프로젝트
   collection: projects
   url: /projects/
-  unit: 건
+  icon: folder
+  empty_state: 아직 등록된 프로젝트가 없습니다.
 - title: CTF·워게임
+  short_title: CTF·워게임
   collection: writeups
   url: /writeups/
-  unit: 편
+  icon: notebook
+  empty_state: 아직 등록된 글이 없습니다.

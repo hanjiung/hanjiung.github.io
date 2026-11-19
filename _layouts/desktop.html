@@ -1,0 +1,48 @@
+---
+layout: default
+---
+{% assign initial = page.section | default: 'home' %}
+<section class="window home-window" data-window="home" aria-labelledby="title-home"{% if initial == 'home' %} data-front="true"{% else %} hidden{% endif %}>
+  {% include window-bar.html app="home" title="포트폴리오" %}
+  <div class="home-body">
+    <div class="profile">
+      <span class="avatar" aria-hidden="true">h</span>
+      <div><h1>{{ site.title | escape }}</h1><p>모의해킹 포트폴리오</p></div>
+    </div>
+    <nav class="folders" aria-label="자료 열기">
+      {% for section in site.data.sections %}
+        <a href="{{ section.url | relative_url }}" data-open="{{ section.collection }}">
+          {% include app-icon.html icon=section.icon %}<span>{{ section.title }}</span>
+        </a>
+      {% endfor %}
+    </nav>
+    {% assign featured = site.projects | where: "featured", true | sort: "title" %}
+    {% if featured.size > 0 %}
+      <section class="entry-group featured" aria-labelledby="featured-title">
+        <h2 id="featured-title">대표 프로젝트</h2>
+        {% include entry-list.html entries=featured limit=3 %}
+      </section>
+    {% endif %}
+  </div>
+</section>
+{% for section in site.data.sections %}
+  <section class="window collection-window" data-window="{{ section.collection }}" aria-labelledby="title-{{ section.collection }}"{% if initial == section.collection %} data-front="true"{% else %} hidden{% endif %}>
+    {% include window-bar.html app=section.collection title=section.title %}
+    {% assign entries = site[section.collection] | sort: 'title' %}
+    {% if entries.size == 0 %}
+      <div class="empty-state">{% include app-icon.html icon=section.icon %}<p>{{ section.empty_state }}</p></div>
+    {% elsif section.collection == 'writeups' %}
+      <div class="entries">
+        {% assign topics = entries | group_by_exp: "entry", "entry.topic | default: '기타'" | sort: "name" %}
+        {% for topic in topics %}
+          <section class="entry-group">
+            <h3>{{ topic.name | escape }}</h3>
+            {% include entry-list.html entries=topic.items %}
+          </section>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="entries">{% include entry-list.html entries=entries %}</div>
+    {% endif %}
+  </section>
+{% endfor %}

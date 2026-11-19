@@ -1,0 +1,8 @@
+<header class="titlebar">
+  <div class="window-controls" hidden>
+    <button type="button" data-control="close" aria-label="{{ include.title }} 창 닫기"><span aria-hidden="true">×</span></button>
+    <button type="button" data-control="minimize" aria-label="{{ include.title }} 창 최소화"><span aria-hidden="true">−</span></button>
+    <button type="button" data-control="zoom" aria-pressed="false" aria-label="{{ include.title }} 창 크게 보기"><span aria-hidden="true">⤢</span></button>
+  </div>
+  <h2 id="title-{{ include.app }}">{{ include.title }}</h2>
+</header>

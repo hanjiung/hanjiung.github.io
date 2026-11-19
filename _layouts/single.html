@@ -1,0 +1,13 @@
+---
+layout: default
+---
+{% assign section = site.data.sections | where: 'collection', page.collection | first %}
+<article class="window reader" aria-labelledby="article-title">
+  <header class="titlebar reader-bar">
+    <a href="{{ section.url | relative_url }}"><span aria-hidden="true">←</span> {{ section.title }}</a>
+  </header>
+  <div class="reader-body">
+    <h1 id="article-title">{{ page.title | escape }}</h1>
+    {{ content }}
+  </div>
+</article>
