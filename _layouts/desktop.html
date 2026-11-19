@@ -4,31 +4,33 @@ layout: default
 {% assign initial = page.section | default: 'home' %}
 {% for app in site.data.sections %}
   <section class="window app-window" data-window="{{ app.id }}" aria-labelledby="title-{{ app.id }}"{% if initial == app.id %} data-front="true"{% else %} hidden{% endif %}>
-    {% include window-bar.html app=app.id name=app.name title=app.title %}
-    {% case app.id %}
-      {% when 'home' %}
-        <div class="home-body">
-          <header class="profile">
-            <span class="avatar" aria-hidden="true">h</span>
-            <div>
-              <h1>한지웅 <span>@{{ site.repository | split: '/' | first }}</span></h1>
-              <p class="role"><span aria-hidden="true">$ whoami</span> 모의해킹 직무 준비 중</p>
+    {% include window-bar.html icon=app.icon name=app.name title=app.title %}
+    <div class="app-body{% if app.id == 'home' %} home-body{% endif %}">
+      <header class="panel-heading">
+        <p class="panel-path" lang="en">~/{{ site.title | escape }}{{ app.url | escape }}</p>
+        <h1 id="title-{{ app.id }}" lang="en">{{ app.name | remove: '.app' | escape }}</h1>
+      </header>
+      {% case app.id %}
+        {% when 'home' %}
+          <div class="profile">
+            <span class="avatar" aria-hidden="true">한</span>
+            <div class="profile-info">
+              <h2>한지웅 <a href="https://github.com/{{ site.repository | split: '/' | first }}" lang="en">@{{ site.repository | split: '/' | first }}</a></h2>
+              <p class="role"><span lang="en">$ whoami →</span> 모의해킹 직무 준비 중</p>
+              <p class="about-copy">보안 프로젝트에서 맡은 일과 기술적인 선택의 이유를 기록합니다. CTF와 드림핵 워게임을 풀며 세운 가설, 풀이의 실마리, 새롭게 배운 점도 모읍니다.</p>
+              <nav class="about-links" aria-label="포트폴리오 둘러보기">
+                <a class="about-primary" href="{{ '/projects/' | relative_url }}" data-open="projects">프로젝트 보기 <span aria-hidden="true">→</span></a>
+                <a href="{{ '/skills/' | relative_url }}" data-open="skills">기술 스택</a>
+                <a href="{{ '/writeups/' | relative_url }}">전체 풀이</a>
+              </nav>
             </div>
-          </header>
-          <p class="about-copy">보안 프로젝트에서 맡은 일과 기술적인 선택의 이유를 기록합니다. CTF와 드림핵 워게임을 풀며 세운 가설, 풀이의 실마리, 새롭게 배운 점도 모읍니다.</p>
-          <nav class="about-links" aria-label="포트폴리오 둘러보기">
-            <a class="about-primary" href="{{ '/projects/' | relative_url }}" data-open="projects">프로젝트 보기 <span aria-hidden="true">→</span></a>
-            <a href="{{ '/skills/' | relative_url }}" data-open="skills">기술 스택</a>
-            <a href="{{ '/writeups/' | relative_url }}">전체 풀이</a>
-          </nav>
-        </div>
-      {% when 'skills' %}
-        <div class="app-body skills-body">
-          <header class="terminal-line"><span aria-hidden="true">❯</span> <code>cat skills.yml</code></header>
+          </div>
+        {% when 'skills' %}
+          <p class="terminal-line"><span aria-hidden="true">❯</span> <code>cat _data/skills.yml</code></p>
           <div class="skill-groups">
             {% for skill in site.data.skills %}
               <section class="skill-group">
-                <h3>{{ skill.field | escape }}</h3>
+                <h2>{{ skill.field | escape }}</h2>
                 <ul class="skill-tags" aria-label="{{ skill.field | escape }} 기술">
                   {% for tool in skill.tools %}<li>{{ tool | escape }}</li>{% endfor %}
                 </ul>
@@ -37,57 +39,54 @@ layout: default
             {% endfor %}
           </div>
           <a class="section-link" href="{{ '/projects/' | relative_url }}" data-open="projects">프로젝트에서 활용 사례 보기 <span aria-hidden="true">→</span></a>
-        </div>
-      {% when 'projects' %}
-        {% assign projects = site.projects | sort: 'title' %}
-        {% if projects.size == 0 %}
-          <div class="empty-state">{% include app-icon.html icon=app.icon %}<p>아직 등록된 프로젝트가 없습니다.</p></div>
-        {% else %}
-          <div class="entries">
-            {% assign featured = projects | where: 'featured', true %}
-            {% assign other = projects | where_exp: 'project', 'project.featured != true' %}
-            {% if featured.size > 0 %}
-              <section class="entry-group">
-                <h3>대표 프로젝트</h3>
-                {% include entry-list.html entries=featured show_details=true %}
-              </section>
-            {% endif %}
-            {% if other.size > 0 %}
-              <section class="entry-group">
-                {% if featured.size > 0 %}<h3>다른 프로젝트</h3>{% endif %}
-                {% include entry-list.html entries=other show_details=true %}
-              </section>
-            {% endif %}
-          </div>
-        {% endif %}
-      {% when 'ctf', 'wargames' %}
-        {% assign entries = site.writeups | where: 'section', app.id | sort: 'title' %}
-        {% if entries.size > 0 %}
-          <div class="entries">{% include writeup-groups.html entries=entries %}</div>
-        {% else %}
-          <div class="empty-state">
-            <span class="app-tile app-{{ app.icon }}" aria-hidden="true">{% include app-icon.html icon=app.icon %}</span>
-            <p>아직 공개한 {{ app.title }}가 없습니다.</p>
-          </div>
-        {% endif %}
-        <footer class="app-footer"><a class="section-link" href="{{ '/writeups/' | relative_url }}">전체 풀이 <span aria-hidden="true">→</span></a></footer>
-      {% when 'activity' %}
-        <div class="app-body">
-          <h3 class="pane-heading">활동·교육</h3>
-          <ol class="activity-list">
+        {% when 'projects' %}
+          {% assign projects = site.projects | sort: 'title' %}
+          {% if projects.size == 0 %}
+            <div class="empty-state"><p>아직 등록된 프로젝트가 없습니다.</p></div>
+          {% else %}
+            <div class="project-entries">
+              {% assign featured = projects | where: 'featured', true %}
+              {% assign other = projects | where_exp: 'project', 'project.featured != true' %}
+              {% if featured.size > 0 %}
+                <section class="entry-group">
+                  <h2>대표 프로젝트</h2>
+                  {% include entry-list.html entries=featured show_details=true %}
+                </section>
+              {% endif %}
+              {% if other.size > 0 %}
+                <section class="entry-group">
+                  {% if featured.size > 0 %}<h2>다른 프로젝트</h2>{% endif %}
+                  {% include entry-list.html entries=other show_details=true %}
+                </section>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% when 'ctf', 'wargames' %}
+          {% assign entries = site.writeups | where: 'section', app.id | sort: 'title' %}
+          {% if entries.size > 0 %}
+            {% include writeup-groups.html entries=entries %}
+          {% else %}
+            <div class="empty-state">
+              <span class="app-tile app-{{ app.icon }}" aria-hidden="true">{% include app-icon.html icon=app.icon %}</span>
+              <p>아직 공개한 {{ app.title }}가 없습니다.</p>
+            </div>
+          {% endif %}
+          <a class="section-link" href="{{ '/writeups/' | relative_url }}">전체 풀이 <span aria-hidden="true">→</span></a>
+        {% when 'activity' %}
+          <ol class="activity-list" aria-label="활동·교육">
             {% assign activities = site.data.activities | sort: 'month' | reverse %}
             {% for activity in activities %}
               <li>
                 <time datetime="{{ activity.month | escape }}">{{ activity.month | replace: '-', '.' }}</time>
                 <div>
-                  <h4>{{ activity.title | escape }}</h4>
+                  <h2>{{ activity.title | escape }}</h2>
                   <p>{{ activity.detail | escape }}</p>
                   {% if activity.url %}<a class="section-link" href="{{ activity.url | escape }}">{{ activity.link_text | escape }} <span aria-hidden="true">↗</span></a>{% endif %}
                 </div>
               </li>
             {% endfor %}
           </ol>
-        </div>
-    {% endcase %}
+      {% endcase %}
+    </div>
   </section>
 {% endfor %}

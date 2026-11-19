@@ -30,25 +30,28 @@
         <a class="brand" href="{{ '/' | relative_url }}" data-open="home" aria-label="{{ site.title | escape }} 홈">
           {% include app-icon.html icon="desktop" %}<strong>{{ site.title | escape }}</strong>
         </a>
-        <span class="current-app">{% if current_app == 'writeups' %}전체 풀이{% else %}{{ current_section.title | default: page.title | escape }}{% endif %}</span>
+        <span class="current-app" lang="en">{{ current_section.name | default: 'Writeups' | remove: '.app' | escape }}</span>
       </div>
-      <button class="appearance" type="button" aria-label="밝은 화면으로 전환" hidden>
-        <span class="appearance-icon" aria-hidden="true"></span><span class="appearance-label">밝게</span>
-      </button>
+      <div class="menu-status">
+        <button class="appearance" type="button" aria-label="밝은 화면으로 전환" hidden>
+          <span class="appearance-icon" aria-hidden="true"></span>
+        </button>
+        <time class="menu-clock" lang="en" hidden><span class="menu-date"></span> <span class="menu-time"></span></time>
+      </div>
     </header>
     <main id="main" class="workspace" tabindex="-1">
       {{ content }}
     </main>
     <footer class="shelf">
-      <nav class="dock" aria-label="포트폴리오 메뉴">
+      <nav class="dock" lang="en" aria-label="Portfolio apps">
         {% for app in site.data.sections %}
-          <a class="dock-item" data-open="{{ app.id }}" href="{{ app.url | relative_url }}" data-title="{{ app.title | escape }}" aria-label="{{ app.title | escape }} · {{ app.name }}"{% if current_app == app.id %} aria-current="{% if page.collection %}location{% else %}page{% endif %}" data-running="true"{% endif %}>
-            <span class="dock-tip" aria-hidden="true">{{ app.name }}</span>
+          <a class="dock-item" data-open="{{ app.id }}" href="{{ app.url | relative_url }}" data-title="{{ app.title | escape }}"{% if current_app == app.id %} aria-current="{% if page.collection %}location{% else %}page{% endif %}" data-running="true"{% endif %}>
+            <span class="dock-tip" aria-hidden="true">{{ app.name | escape }}</span>
             <span class="app-tile app-{{ app.icon }}" aria-hidden="true">{% include app-icon.html icon=app.icon %}</span>
-            <span class="dock-label">{{ app.short_title | default: app.title | escape }}</span>
+            <span class="dock-label">{{ app.name | remove: '.app' | escape }}</span>
           </a>
         {% endfor %}
-        <a class="dock-item github" href="https://github.com/{{ site.repository | split: '/' | first }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub 프로필 열기">
+        <a class="dock-item github" href="https://github.com/{{ site.repository | split: '/' | first }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile (opens in a new tab)">
           <span class="dock-tip" aria-hidden="true">GitHub ↗</span>
           <span class="app-tile app-git" aria-hidden="true">{% include app-icon.html icon="git" %}</span><span class="dock-label">GitHub</span>
         </a>

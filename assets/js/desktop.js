@@ -1,14 +1,28 @@
 (() => {
   const root = document.documentElement;
   const appearanceButton = document.querySelector(".appearance");
-  const appearanceLabel = appearanceButton.querySelector(".appearance-label");
+  const clock = document.querySelector(".menu-clock");
+  const dateLabel = clock.querySelector(".menu-date");
+  const timeLabel = clock.querySelector(".menu-time");
+  const dateFormat = new Intl.DateTimeFormat("en-US", { weekday: "short", month: "short", day: "numeric" });
+  const timeFormat = new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" });
 
-  function showAppearance() {
-    const dark = root.dataset.look === "dark";
-    appearanceLabel.textContent = dark ? "밝게" : "어둡게";
-    appearanceButton.setAttribute("aria-label", dark ? "밝은 화면으로 전환" : "어두운 화면으로 전환");
+  function updateClock() {
+    const now = new Date();
+    clock.dateTime = now.toISOString();
+    dateLabel.textContent = dateFormat.format(now);
+    timeLabel.textContent = timeFormat.format(now);
+    setTimeout(updateClock, 60000 - now.getTime() % 60000);
   }
 
+  function showAppearance() {
+    const action = root.dataset.look === "dark" ? "밝은 화면으로 전환" : "어두운 화면으로 전환";
+    appearanceButton.setAttribute("aria-label", action);
+    appearanceButton.title = action;
+  }
+
+  updateClock();
+  clock.hidden = false;
   showAppearance();
   appearanceButton.hidden = false;
   appearanceButton.addEventListener("click", () => {
@@ -60,7 +74,7 @@
       zoom.setAttribute("aria-label", link.dataset.title + (large ? " 창 원래 크기로" : " 창 크게 보기"));
       keepInBounds(win);
     }
-    currentLabel.textContent = front ? links.get(front).dataset.title : "바탕화면";
+    currentLabel.textContent = front ? links.get(front).querySelector(".dock-label").textContent : "Desktop";
     document.title = links.get(front || "home").dataset.title + " · " + siteTitle;
   }
 
