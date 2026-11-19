@@ -1,12 +1,35 @@
-- title: 보안 프로젝트
+- id: home
+  name: About.app
+  title: 소개
+  url: /
+  icon: profile
+- id: skills
+  name: Skills.app
+  title: 기술 스택
+  short_title: 스택
+  url: /skills/
+  icon: terminal
+- id: projects
+  name: Projects.app
+  title: 보안 프로젝트
   short_title: 프로젝트
-  collection: projects
   url: /projects/
   icon: folder
-  empty_state: 아직 등록된 프로젝트가 없습니다.
-- title: CTF·워게임
-  short_title: CTF·워게임
-  collection: writeups
-  url: /writeups/
+- id: ctf
+  name: CTF.app
+  title: CTF 풀이
+  short_title: CTF
+  url: /ctf/
+  icon: flag
+- id: wargames
+  name: Wargames.app
+  title: 워게임 노트
+  short_title: 워게임
+  url: /wargames/
   icon: notebook
-  empty_state: 아직 등록된 글이 없습니다.
+- id: activity
+  name: Activity.app
+  title: 활동·교육
+  short_title: 활동
+  url: /activity/
+  icon: calendar

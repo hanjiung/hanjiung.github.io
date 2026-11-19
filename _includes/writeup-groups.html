@@ -1,0 +1,7 @@
+{% assign topics = include.entries | group_by_exp: "entry", "entry.topic | default: '기타'" | sort: "name" %}
+{% for topic in topics %}
+  <section class="entry-group">
+    <h3>{{ topic.name | escape }}</h3>
+    {% include entry-list.html entries=topic.items %}
+  </section>
+{% endfor %}

@@ -61,7 +61,7 @@
       keepInBounds(win);
     }
     currentLabel.textContent = front ? links.get(front).dataset.title : "바탕화면";
-    document.title = links.get(front || "home").dataset.pageTitle + " · " + siteTitle;
+    document.title = links.get(front || "home").dataset.title + " · " + siteTitle;
   }
 
   function recordNavigation() {

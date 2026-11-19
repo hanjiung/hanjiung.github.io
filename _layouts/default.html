@@ -22,7 +22,7 @@
     <script defer src="{{ '/assets/js/desktop.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
   </head>
   {% assign current_app = page.section | default: page.collection | default: 'home' %}
-  {% assign current_section = site.data.sections | where: 'collection', current_app | first %}
+  {% assign current_section = site.data.sections | where: 'id', current_app | first %}
   <body class="desktop" data-initial="{{ current_app }}" data-site-title="{{ site.title | escape }}">
     <a class="skip-link" href="#main">본문으로 이동</a>
     <header class="menu-bar">
@@ -30,7 +30,7 @@
         <a class="brand" href="{{ '/' | relative_url }}" data-open="home" aria-label="{{ site.title | escape }} 홈">
           {% include app-icon.html icon="desktop" %}<strong>{{ site.title | escape }}</strong>
         </a>
-        <span class="current-app">{{ current_section.title | default: '포트폴리오' }}</span>
+        <span class="current-app">{% if current_app == 'writeups' %}전체 풀이{% else %}{{ current_section.title | default: page.title | escape }}{% endif %}</span>
       </div>
       <button class="appearance" type="button" aria-label="밝은 화면으로 전환" hidden>
         <span class="appearance-icon" aria-hidden="true"></span><span class="appearance-label">밝게</span>
@@ -41,16 +41,16 @@
     </main>
     <footer class="shelf">
       <nav class="dock" aria-label="포트폴리오 메뉴">
-        <a class="dock-item" data-open="home" href="{{ '/' | relative_url }}" data-title="포트폴리오" data-page-title="모의해킹 포트폴리오"{% if current_app == 'home' %} aria-current="page" data-running="true"{% endif %}>
-          <span class="app-tile app-profile" aria-hidden="true">{% include app-icon.html icon="profile" %}</span><span>홈</span>
-        </a>
-        {% for section in site.data.sections %}
-          <a class="dock-item" data-open="{{ section.collection }}" href="{{ section.url | relative_url }}" data-title="{{ section.title | escape }}" data-page-title="{{ section.title | escape }}"{% if current_app == section.collection %} aria-current="{% if page.collection %}location{% else %}page{% endif %}" data-running="true"{% endif %}>
-            <span class="app-tile app-{{ section.icon }}" aria-hidden="true">{% include app-icon.html icon=section.icon %}</span><span>{{ section.short_title }}</span>
+        {% for app in site.data.sections %}
+          <a class="dock-item" data-open="{{ app.id }}" href="{{ app.url | relative_url }}" data-title="{{ app.title | escape }}" aria-label="{{ app.title | escape }} · {{ app.name }}"{% if current_app == app.id %} aria-current="{% if page.collection %}location{% else %}page{% endif %}" data-running="true"{% endif %}>
+            <span class="dock-tip" aria-hidden="true">{{ app.name }}</span>
+            <span class="app-tile app-{{ app.icon }}" aria-hidden="true">{% include app-icon.html icon=app.icon %}</span>
+            <span class="dock-label">{{ app.short_title | default: app.title | escape }}</span>
           </a>
         {% endfor %}
         <a class="dock-item github" href="https://github.com/{{ site.repository | split: '/' | first }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub 프로필 열기">
-          <span class="app-tile app-git" aria-hidden="true">{% include app-icon.html icon="git" %}</span><span>GitHub</span>
+          <span class="dock-tip" aria-hidden="true">GitHub ↗</span>
+          <span class="app-tile app-git" aria-hidden="true">{% include app-icon.html icon="git" %}</span><span class="dock-label">GitHub</span>
         </a>
       </nav>
     </footer>

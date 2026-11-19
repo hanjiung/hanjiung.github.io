@@ -1,10 +1,11 @@
 ---
 layout: default
 ---
-{% assign section = site.data.sections | where: 'collection', page.collection | first %}
+{% assign current_app = page.section | default: page.collection %}
+{% assign section = site.data.sections | where: 'id', current_app | first %}
 <article class="window reader" aria-labelledby="article-title">
   <header class="titlebar reader-bar">
-    <a href="{{ section.url | relative_url }}"><span aria-hidden="true">←</span> {{ section.title }}</a>
+    <a href="{{ section.url | default: '/writeups/' | relative_url }}"><span aria-hidden="true">←</span> {{ section.title | default: '전체 풀이' | escape }}</a>
   </header>
   <div class="reader-body">
     <h1 id="article-title">{{ page.title | escape }}</h1>
