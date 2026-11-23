@@ -1,0 +1,15 @@
+{% assign blog_path = page.blog_path | default: '' %}{% assign destination = site.blog_url | append: blog_path -%}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>우당탕탕 보안일기 · 한지웅</title>
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="{{ destination | escape }}">
+    <meta http-equiv="refresh" content="0; url={{ destination | escape }}">
+  </head>
+  <body>
+    <p><a href="{{ destination | escape }}">티스토리 블로그 ‘우당탕탕 보안일기’에서 보기 →</a></p>
+  </body>
+</html>

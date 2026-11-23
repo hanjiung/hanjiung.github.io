@@ -1,8 +1,0 @@
-<ul class="entry-list">
-  {% assign max_entries = include.limit | default: include.entries.size %}
-  {% for entry in include.entries limit: max_entries %}
-    <li>
-      <a href="{{ entry.url | relative_url }}">{{ entry.title | escape }}</a>
-    </li>
-  {% endfor %}
-</ul>

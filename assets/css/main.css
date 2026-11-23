@@ -150,9 +150,7 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
 .window[data-front="true"], .reader { box-shadow: var(--window-shadow); }
 .window[data-window="skills"] { --ideal-width: 880px; --ideal-height: 620px; --cascade-x: 32px; --cascade-y: 26px; }
 .window[data-window="projects"] { --ideal-width: 860px; --ideal-height: 640px; --cascade-x: 64px; --cascade-y: 52px; }
-.window[data-window="ctf"] { --cascade-x: 96px; --cascade-y: 78px; }
-.window[data-window="wargames"] { --cascade-x: 128px; --cascade-y: 104px; }
-.window[data-window="activity"] { --cascade-x: 160px; --cascade-y: 130px; }
+.window[data-window="activity"] { --cascade-x: 96px; --cascade-y: 78px; }
 .window[data-large="true"] { inset: 7px 12px; width: auto; height: auto; max-height: none; }
 .titlebar {
   position: relative;
@@ -349,10 +347,6 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
 .empty-state p { color: var(--muted); }
 .entry-group + .entry-group { margin-top: 18px; }
 .entry-group h2, .entry-group h3 { font-size: 14px; }
-.entry-list { list-style: none; padding: 0; margin: 0; }
-.entry-list li + li { border-top: 1px solid var(--rule); }
-.entry-list a { display: block; border-radius: 4px; padding: 10px 4px; text-decoration: none; }
-.entry-list a:hover, .entry-list a:focus-visible { color: var(--accent); text-decoration: underline; text-underline-offset: .2em; }
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
@@ -434,14 +428,13 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
 .app-terminal { --tile-top: #40454c; --tile-base: #17191e; color: #c5ffe1; }
 .app-folder { --tile-top: #fff4ae; --tile-base: #ffd15a; }
 .app-folder .folder::after { background: linear-gradient(#d59b35, #b4771c); box-shadow: inset 0 .035em #f1b956; }
-.app-flag { --tile-top: #ff7758; --tile-base: #d93951; }
 .app-notebook { --tile-top: #a787fb; --tile-base: #7050d0; }
 .app-notebook .notebook { background: linear-gradient(90deg, #ddd5ff 0 15%, #8f79c9 15% 20%, #e9defa 20%); }
 .app-notebook .notebook::before { background: #8e76b8; box-shadow: 0 .08em #a491c6; }
 .app-calendar { --tile-top: #40cabb; --tile-base: #118d94; }
 .app-git { --tile-top: #34363e; --tile-base: #171820; }
-.github { margin-left: 5px; }
-.github::before { content: ""; position: absolute; left: -3px; top: 10px; bottom: 10px; width: 1px; background: var(--divider); }
+.external-start { margin-left: 5px; }
+.external-start::before { content: ""; position: absolute; left: -3px; top: 10px; bottom: 10px; width: 1px; background: var(--divider); }
 .reader { inset: 4% 0; width: min(90%, 820px); height: auto; max-height: none; margin-inline: auto; }
 .reader-bar { justify-content: flex-start; padding-inline: 20px; }
 .reader-bar a { padding-block: 8px; text-decoration: none; }
@@ -508,8 +501,8 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
   .dock .app-tile { width: 40px; height: 40px; border-radius: 10px; }
   .dock .app-tile svg { width: 22px; height: 22px; }
   .dock .app-tile .art { font-size: 25px; }
-  .dock .github { margin-left: 0; }
-  .dock .github::before { display: none; }
+  .dock .external-start { margin-left: 0; }
+  .dock .external-start::before { display: none; }
   .dock-item:first-child .dock-tip { left: 0; transform: none; }
   .dock-item:last-child .dock-tip { left: auto; right: 0; transform: none; }
   .skill-groups { grid-template-columns: 1fr; }
@@ -535,7 +528,7 @@ button { color: inherit; border: 0; padding: 0; background: none; font: inherit;
   .appearance { min-width: 44px; }
   .window-controls { inset-inline-start: 0; }
   .window-controls button { width: 44px; }
-  .entry-list a, .about-links a, .section-link, .project-title a, .project-actions a, .project-nav a { min-height: 44px; }
+  .about-links a, .section-link, .project-title a, .project-actions a, .project-nav a { min-height: 44px; }
 }
 @media (pointer: coarse) and (max-width: 590px) {
   .window-controls { inset-inline-start: 5px; }

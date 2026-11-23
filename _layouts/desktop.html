@@ -20,11 +20,11 @@ layout: default
             <div class="profile-info">
               <h2>한지웅 <a class="profile-github" href="https://github.com/{{ site.repository | split: '/' | first }}" lang="en" aria-label="@{{ site.repository | split: '/' | first }} on GitHub">{% include app-icon.html icon="github" %}@{{ site.repository | split: '/' | first }}</a></h2>
               <p class="role"><span lang="en">$ whoami →</span> 모의해킹 직무 준비 중</p>
-              <p class="about-copy">보안 프로젝트에서 맡은 일과 기술적인 선택의 이유를 기록합니다. CTF와 드림핵 워게임을 풀며 세운 가설, 풀이의 실마리, 새롭게 배운 점도 모읍니다.</p>
+              <p class="about-copy">보안 프로젝트에서 맡은 일과 기술적인 선택의 이유를 기록합니다.</p>
               <nav class="about-links" aria-label="포트폴리오 둘러보기">
                 <a class="about-primary" href="{{ '/projects/' | relative_url }}" data-open="projects">{% include app-icon.html icon="folder-link" %}프로젝트 보기</a>
                 <a href="{{ '/skills/' | relative_url }}" data-open="skills">{% include app-icon.html icon="terminal" %}기술 스택</a>
-                <a href="{{ '/writeups/' | relative_url }}">{% include app-icon.html icon="book" %}전체 풀이</a>
+                <a href="{{ site.blog_url | escape }}" target="_blank" rel="noopener noreferrer">{% include app-icon.html icon="book" %}티스토리 블로그 <span aria-hidden="true">↗</span><span class="sr-only"> (새 탭)</span></a>
               </nav>
             </div>
           </div>
@@ -83,17 +83,6 @@ layout: default
               {% endif %}
             </div>
           {% endif %}
-        {% when 'ctf', 'wargames' %}
-          {% assign entries = site.writeups | where: 'section', app.id | sort: 'title' %}
-          {% if entries.size > 0 %}
-            {% include writeup-groups.html entries=entries %}
-          {% else %}
-            <div class="empty-state">
-              <span class="app-tile app-{{ app.icon }}" aria-hidden="true">{% include app-icon.html icon=app.icon %}</span>
-              <p>아직 공개한 {{ app.title }}가 없습니다.</p>
-            </div>
-          {% endif %}
-          <a class="section-link" href="{{ '/writeups/' | relative_url }}">전체 풀이 <span aria-hidden="true">→</span></a>
         {% when 'activity' %}
           <ol class="activity-list" aria-label="활동·교육">
             {% assign activities = site.data.activities | sort: 'month' | reverse %}

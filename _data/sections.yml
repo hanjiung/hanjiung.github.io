@@ -13,16 +13,6 @@
   title: 보안 프로젝트
   url: /projects/
   icon: folder
-- id: ctf
-  name: CTF.app
-  title: CTF 풀이
-  url: /ctf/
-  icon: flag
-- id: wargames
-  name: Wargames.app
-  title: 워게임 노트
-  url: /wargames/
-  icon: notebook
 - id: activity
   name: Activity.app
   title: 활동·교육

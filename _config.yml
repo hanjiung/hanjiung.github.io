@@ -1,26 +1,19 @@
 title: hanjiung.app
-description: 한지웅의 모의해킹 포트폴리오. 보안 프로젝트, CTF 풀이, 워게임 노트와 활동 기록을 모읍니다.
+description: 한지웅의 모의해킹 포트폴리오. 보안 프로젝트에서 맡은 일, 기술 스택과 활동 기록을 소개합니다.
 locale: ko-KR
 url: "https://hanjiung.github.io"
 baseurl: ""
 repository: hanjiung/hanjiung.github.io
+blog_url: "https://jiung02.tistory.com/"
 
 collections:
   projects:
     output: true
     permalink: /projects/:name/
-  writeups:
-    output: true
-    permalink: /writeups/:name/
 defaults:
   - scope:
       path: ""
       type: projects
-    values:
-      layout: single
-  - scope:
-      path: ""
-      type: writeups
     values:
       layout: single
 

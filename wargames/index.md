@@ -1,5 +1,4 @@
 ---
-layout: desktop
-title: 워게임 노트
-section: wargames
+layout: blog-redirect
+blog_path: "category/Web%20hacking/DreamHack"
 ---

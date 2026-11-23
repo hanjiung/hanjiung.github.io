@@ -5,7 +5,7 @@ layout: default
 {% assign section = site.data.sections | where: 'id', current_app | first %}
 <article class="window reader{% if page.collection == 'projects' %} project-reader{% endif %}" aria-labelledby="article-title">
   <header class="titlebar reader-bar">
-    <a href="{{ section.url | default: '/writeups/' | relative_url }}"><span aria-hidden="true">←</span> {{ section.title | default: '전체 풀이' | escape }}</a>
+    <a href="{{ section.url | default: '/projects/' | relative_url }}"><span aria-hidden="true">←</span> {{ section.title | default: '보안 프로젝트' | escape }}</a>
   </header>
   <div class="reader-body">
     {% if page.collection == 'projects' %}

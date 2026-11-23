@@ -1,6 +1,6 @@
 # hanjiung.app
 
-GitHub Pages와 Jekyll로 운영하는 한지웅의 모의해킹 포트폴리오입니다. 하단 독에서 소개, 기술 스택, 프로젝트, CTF, 워게임, 활동 창을 엽니다.
+GitHub Pages와 Jekyll로 운영하는 한지웅의 모의해킹 포트폴리오입니다. 하단 메뉴에서 About, Skills, Projects, Activity 창을 열 수 있습니다. Blog는 티스토리 [우당탕탕 보안일기](https://jiung02.tistory.com/)로, GitHub는 [한지웅의 공개 프로필](https://github.com/hanjiung)로 연결됩니다.
 
 ## 파일 구성
 
@@ -8,8 +8,8 @@ GitHub Pages와 Jekyll로 운영하는 한지웅의 모의해킹 포트폴리오
 | --- | --- |
 | `_layouts/desktop.html` | 소개와 앱별 창 |
 | `_projects/` | 보안 프로젝트 글 |
-| `_writeups/` | CTF·워게임 글 |
-| `_templates/` | 프로젝트, CTF 라이트업, 워게임 학습 회고의 빈 양식 |
+| `_templates/project.md` | 프로젝트 글 양식 |
+| `_config.yml` | 사이트 정보와 티스토리 주소(`blog_url`) |
 | `_data/sections.yml` | 메뉴 이름과 경로 |
 | `_data/skills.yml` | Skills 창의 기술 이름, 아이콘, 공식 자료 링크 |
 | `_data/activities.yml` | 날짜순 활동·교육 기록 |
@@ -19,7 +19,9 @@ GitHub Pages와 Jekyll로 운영하는 한지웅의 모의해킹 포트폴리오
 
 카드에는 `card_title`, 한 문장 설명(`description`), 역할(`role`)이 표시됩니다. 상세 글 첫 화면에는 팀과 기간(`context`), 사용 기술 목록(`technologies`), 대표 결과(`result`)를 담습니다. 카드에서 본문 사례로 바로 연결하려면 `example_anchor`에 해당 소제목의 ID를, `example_label`에 링크 이름을 적습니다.
 
-CTF와 워게임 양식에는 각각 `section: ctf`와 `section: wargames`가 지정되어 있습니다. `_writeups/`에 저장한 글은 해당 창에서 `topic`별로 묶입니다. `/writeups/`에서는 분류가 없는 기존 글까지 모두 볼 수 있습니다.
+Activity에는 교육·스터디·발표·팀 활동을 기록합니다. `_data/activities.yml`에 활동한 달과 이름을 적고, 맡은 역할이나 완성한 결과를 한 문장으로 덧붙입니다. 발표 자료나 팀 역할표처럼 그 활동을 확인할 수 있는 링크가 있으면 함께 넣습니다. 화면에는 최신 활동부터 표시됩니다.
+
+CTF와 워게임 풀이는 티스토리에 작성합니다. 예전에 공유한 포트폴리오의 풀이 주소도 블로그로 연결됩니다.
 
 ## 로컬에서 보기
 
