@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ site.locale | default: 'ko' }}" data-look="dark">
+<html lang="{{ site.locale | default: 'ko' }}" data-look="light">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -11,14 +11,14 @@
     <meta property="og:url" content="{{ page.url | absolute_url }}">
     <meta property="og:locale" content="ko_KR">
     <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%s' }}">
     <script>
       try {
-        if (localStorage.getItem("portfolio-appearance") === "light") {
-          document.documentElement.dataset.look = "light";
+        if (localStorage.getItem("portfolio-appearance") === "dark") {
+          document.documentElement.dataset.look = "dark";
         }
       } catch {}
     </script>
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ site.time | date: '%s' }}">
     <script defer src="{{ '/assets/js/desktop.js' | relative_url }}?v={{ site.time | date: '%s' }}"></script>
   </head>
   {% assign current_app = page.section | default: page.collection | default: 'home' %}
@@ -33,7 +33,7 @@
         <span class="current-app" lang="en">{{ current_section.name | default: 'About' | remove: '.app' | escape }}</span>
       </div>
       <div class="menu-status">
-        <button class="appearance" type="button" aria-label="밝은 화면으로 전환" hidden>
+        <button class="appearance" type="button" aria-label="어두운 화면으로 전환" hidden>
           <span class="appearance-icon" aria-hidden="true"></span>
         </button>
         <time class="menu-clock" lang="en" hidden><span class="menu-date"></span> <span class="menu-time"></span></time>
